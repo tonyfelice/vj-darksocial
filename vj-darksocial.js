@@ -31,7 +31,7 @@ function _darksocial(state){
 	    }else{
 		//visitor is the originator, the sharer, and the first generation
 		__repackHash(visitr,visitr,1);
-		//set the visitor event
+		//set the originating visitor event
 		_gaq.push(['_trackEvent', visitr, 0, 1, 0, 1]);
 	    }
 	    break;
