@@ -7,7 +7,7 @@ function _darksocial(state){
     //switch based on state
     switch(state){
 	case 'init':
-	    //test URL for share characteristics, and if present set init param true; set CAMPAIGN to darksocial and pop
+	    //test URL for share characteristics, and if present set init param true; set MEDIUM to darksocial and pop
 	    if(__hasShare()){
 		_gaq.push(['_initData']);  //calculate/set the utmz cookie
 		__repackCmp('darksocial');
@@ -98,7 +98,7 @@ function __repackCmp(cmp){
 	//campaign is ret[4]
 	ret = ret[4].split('|');
 	//0=src 1=cmp 2=medium
-	str=ret[0]+'|utmccn='+cmp+'|'+ret[2];
+	str=ret[0]+'|'+ret[1]+'|utmcmd='+cmp;
 	__bake("__utmz", pre+str, 365);
 	boo = true;
     }
