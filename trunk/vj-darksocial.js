@@ -9,8 +9,7 @@ function _darksocial(state){
 	case 'init':
 	    //test URL for share characteristics, and if present set init param true; set MEDIUM to darksocial and pop
 	    if(__hasShare()){
-		_gaq.push(['_initData']);  //calculate/set the utmz cookie
-		__repackCmp('darksocial');
+		__repackCmp(false,false,'darksocial');
     	    }
 	    break;
 	case 'exec':
@@ -23,6 +22,8 @@ function _darksocial(state){
 		if(oHash[0]!=visitr && oHash[0]!=visitr){
 		    //set category as the originator, action as the sharer, label as the generation  -   _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
 		    _gaq.push(['_trackEvent', oHash[0], oHash[1], eval(oHash[2])+1, 0, 1]);
+		    //set the campaign to origin [0] and the source to the referrer/sharer [1]
+		    __repackCmp(oHash[0],oHash[1],false);
 		    //reset the hash with the origin intact, visitor id, and increment generation
 		    __repackHash(oHash[0],visitr,eval(oHash[2])+1);
 		}else{
@@ -85,7 +86,7 @@ function __getId(){
 		return ret[1];		
 	}
 }
-function __repackCmp(cmp){
+function __repackCmp(src,cmp,med){
     var cky = '__utmz';
     var str;
     var pre;
@@ -98,7 +99,10 @@ function __repackCmp(cmp){
 	//campaign is ret[4]
 	ret = ret[4].split('|');
 	//0=src 1=cmp 2=medium
-	str=ret[0]+'|'+ret[1]+'|utmcmd='+cmp;
+	ret[0] = (src==false) ? ret[0] : 'utmcsr='+src;
+	ret[1] = (cmp==false) ? ret[1] : 'utmcsr='+cmp;
+	ret[2] = (med==false) ? ret[2] : 'utmcsr='+med;
+	str=ret[0]+'|'+ret[1]+'|'+ret[2];
 	__bake("__utmz", pre+str, 365);
 	boo = true;
     }
