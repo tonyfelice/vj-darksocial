@@ -7,10 +7,8 @@ function _darksocial(state){
     //switch based on state
     switch(state){
 	case 'init':
-	    //test URL for share characteristics, and if present set init param true; set MEDIUM to darksocial and pop
-	    if(__hasShare()){
-		__repackCmp(false,false,'darksocial');
-    	    }
+	    //not implemented
+	    
 	    break;
 	case 'exec':
 	    //regardless of share state, we need visitor id, so let's get it now
@@ -19,7 +17,7 @@ function _darksocial(state){
 	    //if share is true, test hash, then track event, and repack hash; otherwise just repack. 
 	    if(__hasShare()){
 		oHash = __unpackHash();
-		if(oHash[0]!=visitr && oHash[0]!=visitr){
+		if(oHash[0]!=visitr && oHash[1]!=visitr){
 		    //set category as the originator, action as the sharer, label as the generation  -   _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
 		    _gaq.push(['_trackEvent', oHash[0], oHash[1], eval(oHash[2])+1, 0, 1]);
 		    //set the campaign to origin [0] and the source to the referrer/sharer [1]
@@ -100,8 +98,8 @@ function __repackCmp(src,cmp,med){
 	ret = ret[4].split('|');
 	//0=src 1=cmp 2=medium
 	ret[0] = (src==false) ? ret[0] : 'utmcsr='+src;
-	ret[1] = (cmp==false) ? ret[1] : 'utmcsr='+cmp;
-	ret[2] = (med==false) ? ret[2] : 'utmcsr='+med;
+	ret[1] = (cmp==false) ? ret[1] : 'utmccn='+cmp;
+	ret[2] = (med==false) ? ret[2] : 'utmcmd='+med;
 	str=ret[0]+'|'+ret[1]+'|'+ret[2];
 	__bake("__utmz", pre+str, 365);
 	boo = true;
