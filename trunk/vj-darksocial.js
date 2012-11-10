@@ -2,7 +2,7 @@ function _darksocial(state){
     //setup
     var visitr;
     var oHash;
-    
+    var dt = new Date().getTime();
     
     //switch based on state
     switch(state){
@@ -18,6 +18,8 @@ function _darksocial(state){
 	    if(__hasShare()){
 		oHash = __unpackHash();
 		if(oHash[0]!=visitr && oHash[1]!=visitr){
+		    //set visitor id in slot 4 (as in who this is "for"), set cv as visitor level
+		    _gaq.push(['_setCustomVar', 4, 'v', dt, 1]);
 		    //set category as the originator, action as the sharer, label as the generation  -   _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
 		    _gaq.push(['_trackEvent', oHash[0], oHash[1], eval(oHash[2])+1, 0, 1]);
 		    //set the campaign to origin [0] and the source to the referrer/sharer [1]
