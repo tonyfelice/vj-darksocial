@@ -81,10 +81,14 @@ function __isDirect(){
 	    console.log(cVal);
 	    //__deleteCookie(cky);
 	    __resetCmp();
-	    console.log('destructo');
+	    console.log('resetto');
 	    cVal = __readCookie(cky, 1);
+	    console.log(cVal);
 	    _gaq.push(['_initData']);
 	    cVal = __readCookie(cky, 1);
+	    console.log(cVal);
+	    
+	    
 	}
 	return false;
     }
