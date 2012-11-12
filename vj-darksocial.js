@@ -14,7 +14,12 @@ function _darksocial(state){
     var oHash;
     
     //regardless of state, we need visitor id, so let's get it now
-    visitr = __getId(); 
+    visitr = __getId();
+    
+    //we need to ensure that the utmz exists
+    if(__readCookie('__utmz')==false){
+	_gaq.push(['_initData']);
+    }
     
     //switch based on state
     switch(state){
@@ -87,8 +92,6 @@ function __isDirect(){
 	    _gaq.push(['_initData']);
 	    cVal = __readCookie(cky, 1);
 	    console.log(cVal);
-	    
-	    
 	}
 	return false;
     }
