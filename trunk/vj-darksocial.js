@@ -78,7 +78,9 @@ function __isDirect(){
     }else{
 	//kill utmz if has darksocial, otherwise let it ride
 	if((cVal.indexOf('darksocial'))!=-1){
+	    console.log(cVal);
 	    __deleteCookie(cky);
+	    console.log('destructo')
 	    _gaq.push(['_initData']);
 	}
 	return false;
