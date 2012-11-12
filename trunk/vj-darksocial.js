@@ -8,6 +8,15 @@ repackCMP not handling various combos properly - in progress, possibly solved
 
 var _gaq = _gaq||[];
 
+//we need to ensure that the utmz exists
+if(__readCookie('__utmz')==false){
+    console.log(__readCookie('__utmz'));
+    _gaq.push(['_initData']);
+    console.log(__readCookie('__utmz',1));
+}
+    
+    
+
 function _darksocial(state){
     //setup
     var visitr;
@@ -15,11 +24,6 @@ function _darksocial(state){
     
     //regardless of state, we need visitor id, so let's get it now
     visitr = __getId();
-    
-    //we need to ensure that the utmz exists
-    if(__readCookie('__utmz')==false){
-	_gaq.push(['_initData']);
-    }
     
     //switch based on state
     switch(state){
