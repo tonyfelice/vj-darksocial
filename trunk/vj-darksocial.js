@@ -1,8 +1,8 @@
 /*~*~*~*~*~*~*~*~*~ ISSUES
-xxxx direct overrides; campaign poisoning
-events not firing - tested, they are filtered out
-generation calc'd but not passed
-repackCMP not handling various combos properly - in progress
+xxxx direct overrides; campaign poisoning; cannot kill and let trackPV rebuild
+events not firing - tested, they are not firing in the body of the case, for some reason
+generation calc'd but not passed - trying to pass in event
+repackCMP not handling various combos properly - in progress, possibly solved
 
 *~*~*~*~*~*~*~*~*/
 
@@ -15,9 +15,6 @@ function _darksocial(state){
     
     //regardless of state, we need visitor id, so let's get it now
     visitr = __getId(); 
-    
-    //set visitor id in slot 4 (as in who this is "for"), set cv as visitor level
-    _gaq.push(['_setCustomVar', 4, 'v', visitr, 1]);
     
     //switch based on state
     switch(state){
@@ -62,6 +59,11 @@ function _darksocial(state){
 	default:
 	    //not implemented, do nothing
     }
+    
+    //set visitor id in slot 4 (as in who this is "for"), set cv as visitor level
+    _gaq.push(['_setCustomVar', 4, 'v', visitr, 1]);
+    
+    
 }
 function __isDirect(){
     // need to prevent darksocial poisoning  - test document.referrer.length  then kill utmz, allow trackPV to rebuild
@@ -76,7 +78,8 @@ function __isDirect(){
     }else{
 	//kill utmz if has darksocial, otherwise let it ride
 	if((cky.indexOf('darksocial'))!=-1){
-	    document.cookie = encodeURIComponent(cky) + "=deleted; expires=" + new Date(0).toUTCString();
+	    //document.cookie = encodeURIComponent(cky) + "=deleted; expires=" + new Date(0).toUTCString();
+	    document.cookie = encodeURIComponent(cky) + null;
 	}
 	return false;
     }
