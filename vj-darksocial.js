@@ -79,9 +79,12 @@ function __isDirect(){
 	//kill utmz if has darksocial, otherwise let it ride
 	if((cVal.indexOf('darksocial'))!=-1){
 	    console.log(cVal);
-	    __deleteCookie(cky);
-	    console.log('destructo')
+	    //__deleteCookie(cky);
+	    __resetCmp();
+	    console.log('destructo');
+	    cVal = __readCookie(cky, 1);
 	    _gaq.push(['_initData']);
+	    cVal = __readCookie(cky, 1);
 	}
 	return false;
     }
@@ -149,6 +152,9 @@ function __repackCmp(src,cmp,med){ //3 args required, max 5, vals other than FAL
 	__createCookie(cky, pre+str, 184);
 	return true;
     }    
+}
+function __resetCmp(){
+    __repackCmp('(direct)','(direct)','(none)');
 }
 //bakery functions credited to http://www.quirksmode.org/js/cookies.html, with minor mods
 function __createCookie(name,value,days) {
