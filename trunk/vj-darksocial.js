@@ -68,18 +68,17 @@ function _darksocial(state){
 function __isDirect(){
     // need to prevent darksocial poisoning  - test document.referrer.length  then kill utmz, allow trackPV to rebuild
     var cky = '__utmz';
-    cky = __eat(cky, 1);
+    var cVal = __readCookie(cky, 1);
     if(document.referrer.length==0){  //not enough that they are 'direct' this time, we want to protect previous campaigns (if any)
-	if(( cky.indexOf('darksocial')!=-1 || cky.indexOf('md=(none)')!=-1 )){
+	if(( cVal.indexOf('darksocial')!=-1 || cVal.indexOf('md=(none)')!=-1 )){
 	    return true;
 	}else{
 	    return false;
 	}
     }else{
 	//kill utmz if has darksocial, otherwise let it ride
-	if((cky.indexOf('darksocial'))!=-1){
-	    document.cookie = encodeURIComponent(cky) + "=deleted; expires=" + new Date(0).toUTCString();
-	    //document.cookie = encodeURIComponent(cky) + null;
+	if((cVal.indexOf('darksocial'))!=-1){
+	    __deleteCookie(cky);
 	}
 	return false;
     }
@@ -108,30 +107,10 @@ function __unpackHash(){
 function __repackHash(a,b,c){
     window.location.hash = a +'.'+ b +'.'+ c;
 }
-function __eat(cky) {
-    var boo = 0;
-    var dat = '';
-    var jar = document.cookie.split(';');
-    cky = cky+"=";
-    for (var i=0;i<jar.length;i++){
-	while (jar[i].charAt(0)==' ') jar[i] = jar[i].substring(1,jar[i].length);
-	if (jar[i].indexOf(cky) == 0){
-	    boo = 1;
-	    dat = jar[i].substring(cky.length, jar[i].length);
-	}
-    }
-    return (arguments.length == 2) ? dat : boo;
-}
-function __bake(name, value, days) {
-    var date = new Date;
-    date.setTime(date.getTime() + (typeof days != "undefined" ? days : 3) * 24 * 60 * 60 * 1000);
-    var expires = "; expires=" + date.toGMTString();
-    document.cookie = name + ("=" + value + expires + "; path=/; domain=." + document.domain);
-}
 function __getId(){
     var cky = '__utma';
-    var ret = __eat(cky,1);
-    if (__eat(cky) === 0){
+    var ret = __readCookie(cky,1);
+    if (__readCookie(cky) === 0){
 	return false;
     }else{
 	    ret = ret.split('.');
@@ -143,8 +122,8 @@ function __repackCmp(src,cmp,med){ //3 args required, max 5, vals other than FAL
     var str;
     var pre;
     var parms = ['utmcsr','utmccn','utmcmd','utmctr','utmcct']; //0=src 1=cmp 2=medium 3=keyword? 4=content
-    var ret = __eat(cky,1);
-    if (__eat(cky) === 0){
+    var ret = __readCookie(cky,1);
+    if (__readCookie(cky) === 0){
 	return false;
     }else{
 	ret = ret.split('.');
@@ -164,9 +143,37 @@ function __repackCmp(src,cmp,med){ //3 args required, max 5, vals other than FAL
 	    str += '|'+ret[i];
 	}
 	
-	__bake("__utmz", pre+str, 365);
+	__createCookie(cky, pre+str, 365);
 	return true;
     }    
+}
+//bakery functions credited to http://www.quirksmode.org/js/cookies.html, with minor mods
+function __createCookie(name,value,days) {
+    if (days) {
+	var date = new Date();
+	date.setTime(date.getTime()+(days*24*60*60*1000));
+	var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+}
+function __readCookie(name) {  //returns boolean set/not; add second arg to return value as a str
+    var nameEQ = name + "=";
+    var jar = document.cookie.split(';');
+    var isSet = false;
+    var strOut = '';
+    for(var i=0;i < jar.length;i++) {
+	var c = jar[i];
+	while (c.charAt(0)==' ') c = c.substring(1,c.length);
+	if (c.indexOf(nameEQ) == 0){
+	    strOut = c.substring(nameEQ.length,c.length);
+	    isSet = true;
+	}
+    }
+    return (arguments.length == 2) ? strOut : isSet;
+}
+function __deleteCookie(name) {
+    __createCookie(name,"",-1);
 }
 
 
