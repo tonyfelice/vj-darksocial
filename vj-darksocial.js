@@ -78,8 +78,8 @@ function __isDirect(){
     }else{
 	//kill utmz if has darksocial, otherwise let it ride
 	if((cky.indexOf('darksocial'))!=-1){
-	    //document.cookie = encodeURIComponent(cky) + "=deleted; expires=" + new Date(0).toUTCString();
-	    document.cookie = encodeURIComponent(cky) + null;
+	    document.cookie = encodeURIComponent(cky) + "=deleted; expires=" + new Date(0).toUTCString();
+	    //document.cookie = encodeURIComponent(cky) + null;
 	}
 	return false;
     }
