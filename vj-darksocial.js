@@ -69,14 +69,17 @@ function __isDirect(){
     cky = __eat(cky, 1);
     if(document.referrer.length==0){  //not enough that they are 'direct' this time, we want to protect previous campaigns (if any)
 	if(( cky.indexOf('darksocial')!=-1 || cky.indexOf('md=(none)')!=-1 )){
+	    console.log('referrer 0; indexOf true');
 	    return true;
 	}else{
+	    console.log('referrer 0; indexOf false');
 	    return false;
 	}
     }else{
 	//kill utmz if has darksocial, otherwise let it ride
 	if((cky.indexOf('darksocial'))!=-1){
 	    document.cookie = encodeURIComponent(cky) + "=deleted; expires=" + new Date(0).toUTCString();
+	    console.log('referrer 1; tried to kill');
 	}
 	return false;
     }
