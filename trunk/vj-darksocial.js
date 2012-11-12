@@ -12,6 +12,7 @@ function _darksocial(state){
     //setup
     var visitr;
     var oHash;
+    _gaq.push(['_trackEvent', 'testevent', 'testact', 'testlbl', 0, 1]);
     
     //regardless of state, we need visitor id, so let's get it now
     visitr = __getId(); 
@@ -80,6 +81,7 @@ function __isDirect(){
 	if((cky.indexOf('darksocial'))!=-1){
 	    document.cookie = encodeURIComponent(cky) + "=deleted; expires=" + new Date(0).toUTCString();
 	    console.log('referrer 1; tried to kill');
+	    __repackCmp('(direct)','(direct)','(none)');
 	}
 	return false;
     }
