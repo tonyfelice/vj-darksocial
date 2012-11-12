@@ -143,7 +143,7 @@ function __repackCmp(src,cmp,med){ //3 args required, max 5, vals other than FAL
 	    str += '|'+ret[i];
 	}
 	
-	__createCookie(cky, pre+str, 365);
+	__createCookie(cky, pre+str, 184);
 	return true;
     }    
 }
@@ -155,7 +155,7 @@ function __createCookie(name,value,days) {
 	var expires = "; expires="+date.toGMTString();
     }
     else var expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
+    document.cookie = name+"="+value+expires+";domain=."+location.hostname+";path=/";
 }
 function __readCookie(name) {  //returns boolean set/not; add second arg to return value as a str
     var nameEQ = name + "=";
