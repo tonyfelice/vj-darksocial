@@ -1,6 +1,6 @@
 /*~*~*~*~*~*~*~*~*~ ISSUES
 xxxx direct overrides; campaign poisoning
-events not firing
+events not firing - tested, they are filtered out
 generation calc'd but not passed
 repackCMP not handling various combos properly - in progress
 
@@ -12,7 +12,6 @@ function _darksocial(state){
     //setup
     var visitr;
     var oHash;
-    _gaq.push(['_trackEvent', 'testevent', 'testact', 'testlbl', 0, 1]);
     
     //regardless of state, we need visitor id, so let's get it now
     visitr = __getId(); 
@@ -37,7 +36,7 @@ function _darksocial(state){
 		    if(oHash[0]!=visitr && oHash[1]!=visitr){
 			
 			//set category as the originator, action as the sharer, label as the generation  -   _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
-			_gaq.push(['_trackEvent', oHash[0], oHash[1], eval(oHash[2])+1, 0, 1]);
+			_gaq.push(['_trackEvent', 'darksocial', 'nth gen', eval(oHash[2])+1, 0, 1]);
 			
 			//set the source to origin [0] and the campaign to the referrer/sharer [1]
 			__repackCmp(oHash[0],oHash[1],'darksocial');
@@ -70,18 +69,14 @@ function __isDirect(){
     cky = __eat(cky, 1);
     if(document.referrer.length==0){  //not enough that they are 'direct' this time, we want to protect previous campaigns (if any)
 	if(( cky.indexOf('darksocial')!=-1 || cky.indexOf('md=(none)')!=-1 )){
-	    console.log('referrer 0; indexOf true');
 	    return true;
 	}else{
-	    console.log('referrer 0; indexOf false');
 	    return false;
 	}
     }else{
 	//kill utmz if has darksocial, otherwise let it ride
 	if((cky.indexOf('darksocial'))!=-1){
 	    document.cookie = encodeURIComponent(cky) + "=deleted; expires=" + new Date(0).toUTCString();
-	    console.log('referrer 1; tried to kill');
-	    __repackCmp('(direct)','(direct)','(none)');
 	}
 	return false;
     }
@@ -99,7 +94,7 @@ function __doOrigin(visitr){
     __repackHash(visitr,visitr,1);
     
     //set the originating visitor event
-    _gaq.push(['_trackEvent', visitr, visitr, 1, 0, 1]);
+    //_gaq.push(['_trackEvent', visitr, visitr, 1, 0, 1]);
 }
 function __unpackHash(){
     var oHash = location.hash;
