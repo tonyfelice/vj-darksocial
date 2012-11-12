@@ -79,6 +79,7 @@ function __isDirect(){
 	//kill utmz if has darksocial, otherwise let it ride
 	if((cVal.indexOf('darksocial'))!=-1){
 	    __deleteCookie(cky);
+	    _gaq.push(['_initData']);
 	}
 	return false;
     }
