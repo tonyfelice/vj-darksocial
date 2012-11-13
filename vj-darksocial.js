@@ -76,14 +76,15 @@ function _darksocial(state){
 }
 function __isDirect(){
     // need to prevent darksocial poisoning  - test document.referrer.length  then kill utmz, allow trackPV to rebuild
-    var cky = '__utmz';
+    /*var cky = '__utmz';
     var cVal = __readCookie(cky, 1);
     if(document.referrer.length==0){  //not enough that they are 'direct' this time, we want to protect previous campaigns (if any)
-	if(( cVal.indexOf('darksocial')!=-1 || cVal.indexOf('md=(none)')!=-1 )){
+	/*if(( cVal.indexOf('darksocial')!=-1 || cVal.indexOf('md=(none)')!=-1 )){
 	    return true;
 	}else{
 	    return false;
 	}
+	return true;
     }else{
 	//kill utmz if has darksocial, otherwise let it ride
 	/*if((cVal.indexOf('darksocial'))!=-1){
@@ -96,9 +97,10 @@ function __isDirect(){
 	    _gaq.push(['_initData']);
 	    cVal = __readCookie(cky, 1);
 	    console.log(cVal);
-	}*/
+	}
 	return false;
-    }
+    }*/
+    return (document.referrer.length==0);
 }
 function __hasShare(){
     //format: originator.sharer.gen
