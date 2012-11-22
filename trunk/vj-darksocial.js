@@ -59,7 +59,7 @@ function _darksocial(state){
 		    __doOrigin(visitr);
 		    
 		    //set the source as visitr, but leave the rest of the cookie alone
-		    __repackCmp(visitr);
+		    __repackCmp(visitr,'(direct)','(none)'); //referral->direct issue
 		}
 	    }else{
 		 __doOrigin(visitr);		
