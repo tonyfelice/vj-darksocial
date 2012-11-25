@@ -23,6 +23,7 @@ function _darksocial(state){
     //setup
     var visitr;
     var oHash;
+    var genera; //generation, as in ancestry
     
     //regardless of state, we need visitor id, so let's get it now
     visitr = __getId();
@@ -41,16 +42,17 @@ function _darksocial(state){
 		//if share is true, test hash, then log (repackCmp) and rehash; otherwise just rehash (doOrigin).
 		if(__hasShare()){
 		    oHash = __unpackHash();
+		    genera = ++oHash[2];
 		    if(oHash[0]!=visitr && oHash[1]!=visitr){
 			
 			//set category as the originator, action as the sharer, label as the generation  -   _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
-			_gaq.push(["_trackEvent", "darksocial", "nth gen", ''+eval(oHash[2]+1)+'', 0, 1]);
+			_gaq.push(["_trackEvent", "darksocial", "nth gen", ''+genera+'', 0, 1]);
 			
 			//set the source to origin [0] and the campaign to the referrer/sharer [1]
 			__repackCmp(oHash[0],oHash[1],'darksocial');
 			
 			//reset the hash with the origin intact, visitor id, and increment generation
-			__repackHash(oHash[0],visitr,eval(oHash[2])+1);
+			__repackHash(oHash[0],visitr,genera);
 			
 		    }else{
 			//looked like a share, but includes the sharer;
