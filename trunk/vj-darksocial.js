@@ -44,7 +44,7 @@ function _darksocial(state){
 		    if(oHash[0]!=visitr && oHash[1]!=visitr){
 			
 			//set category as the originator, action as the sharer, label as the generation  -   _gaq.push(['_trackEvent', category, action, opt_label, opt_value, opt_noninteraction]);
-			_gaq.push(['_trackEvent', 'darksocial', 'nth gen', 'gen', 0, 1]);
+			_gaq.push(["_trackEvent", "darksocial", "nth gen", '"'+eval(oHash[2])+1+'"', 0, 1]);
 			
 			//set the source to origin [0] and the campaign to the referrer/sharer [1]
 			__repackCmp(oHash[0],oHash[1],'darksocial');
